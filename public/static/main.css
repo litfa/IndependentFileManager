@@ -4,7 +4,7 @@ html {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	background-color: #d8d8d8;;
+	background-color: #d8d8d8;
 }
 
 #m-container {
@@ -12,34 +12,38 @@ html {
 	-moz-box-shadow: #666 0px 0px 10px;
 	box-shadow: #666 0px 0px 10px;
 	background-color: rgb(240, 240, 240);
-
+	margin-bottom: 40px;
 }
 
 .m-header {
 	background-color: #286bb1;
-    text-align: left;
-    color: rgb(222, 222, 222);
-    font-size: 22px;
-    height: 60px;
-    line-height: 60px;
-    padding-left: 14px;
+	text-align: left;
+	color: rgb(222, 222, 222);
+	font-size: 22px;
+	height: 60px;
+	line-height: 60px;
+	padding-left: 14px;
 }
 
-.m-panel{
+.m-panel {
 	/*background-color: #FCF8E3;*/
 	height: 100%;
 }
 
-#vm-leftm-items{
+#vm-leftm-items {
 	height: 100%;
 	background-color: rgb(240, 240, 240);
 }
 
-
-#m-right-container{
-	
+#m-right-container {
 	height: 100%;
 	background-color: white;
 	padding: 4px;
-	min-height: 400px;
+	min-height: 500px;
+}
+
+@media (max-width: 768px){
+ 	.m-phone-none{
+ 		display: none;
+ 	}  
 }

@@ -6,14 +6,22 @@ class Ajax {
 		this.parameter["json"] = parameter["json"] || true;
 	}
 
+	// _data(dataObj = "", key = "request") {
+	// 	let postJSON = {};
+	// 	postJSON[key] = dataObj;
+	// 	return JSON.stringify(postJSON);
+	// }
+
+
 	success(data) {
 		if (DEBUG) console.log("Ajax success\n", data);
 		try {
-			if (this.parameter["json"]) data = JSON.parse(data);
+			if (typeof data != "object")
+				if (this.parameter["json"]) data = JSON.parse(data);
 		} catch (e) {
 			console.error('WANG: Ajax BackData is not JSON', e);
 		} finally {
-			if (this.parameter['success']) this.parameter['success'](data);
+			if (this.parameter['success']) this.parameter['success'](data.response || data, data);
 		}
 
 	}
@@ -23,22 +31,20 @@ class Ajax {
 		if (this.parameter['error']) this.parameter['error'](XML, textStatus, errorThrown);
 	}
 
-	data(commande = "", dataObj = null, isJSON = true) {
-		if (!isJSON) return this.parameter['data'] = data;
-		let post = {
-			commande: commande,
-			data: dataObj
-		}
-		let stringData = JSON.stringify(post);
-		return this.parameter['data'] = stringData;
-	}
 
 	ajax() {
 		let that = this;
+		if (typeof this.parameter['data'] == "object")
+			this.parameter['data'] = JSON.stringify(this.parameter['data']);
+
+		console.log("Ajax:", this.parameter.data);
+
 		$.ajax({
-			type: this.parameter['type'] || "GET",
+			type: this.parameter['type'] || "POST",
 			url: encodeURI(this.parameter['url']),
-			data: this.parameter['data'] || "", //具体实例化
+			data: {
+				request: this.parameter['data']
+			}, //具体实例化
 			timeout: this.parameter['timeout'] || 8000,
 			success: function (data) {
 				that.success(data);
@@ -50,8 +56,12 @@ class Ajax {
 		});
 	}
 
-	reset() {
-		this.parameter = null;
+	reset(newParameters) {
+		for (let key in this.parameter) {
+			if (object.hasOwnProperty(key)) {
+				this.parameter[key] = newParameters;
+			}
+		}
 	}
 }
 

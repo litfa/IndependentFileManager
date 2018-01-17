@@ -37,8 +37,17 @@ app.post('/', function (req, res) {
 
 var baseR = require('./controller/function');
 var authR = require('./controller/auth');
-app.use('/fs', baseR);
+
 app.use('/fs_auth', authR);
+//必须先进行登陆
+app.use(['/fs', '/public'], function (req, res, next) {
+    if (req.session.fsos) {
+        next();
+        return true;
+    }
+    res.status(403).send('禁止访问：权限不足！');
+});
+app.use('/fs', baseR);
 
 var server = app.listen(3000, function () {
     var host = server.address().address;

@@ -49,7 +49,7 @@ class Ajax {
 				that.success(data);
 			},
 			error: function (XML, textStatus, errorThrown) {
-				that.error(XML, textStatus, errorThrown)
+				that.error(XML, textStatus, errorThrown);
 			},
 			cache: this.parameter['cache'] || false
 		});

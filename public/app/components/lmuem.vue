@@ -114,6 +114,8 @@
             );
             location.reload();
             break;
+          case "退出":
+            window.location.href = "/fs_auth/logout";
           default:
             console.error("--------------- 选择操作未执行 ---------------");
             break;

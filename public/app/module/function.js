@@ -34,6 +34,10 @@ exports.ls = (path) => {
             }
             let newRes = res_dir.sort().concat(res_file.sort());
             resolve(newRes);
+        }, (XML) => {
+            if (XML.status == 401 || XML.status == 403) {
+                tools.popWindow("非法 的访问操作，权限不足，请重新登陆！");
+            }
         });
     });
 };

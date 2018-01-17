@@ -54,11 +54,20 @@
       formSub(e) {
         console.log('---------- 文件选择完毕 ----------------', this);
         // let ele = e.target;
+        this.allowUpload = false;
         let file = $("#m-upload-file")[0].files[0];
-        functionMudule.upload(file).then(() => {
-          tools.popWindow("正确，文件上传成功！");
+        functionMudule.upload(file, (status) => {
+
+          this.items[2].name = "正在上传.." + status + "%";
+          this.items[2].class = this.items[2].class + " color-green";
+          console.log(this.items[2].name);
+        }).then((status) => {
+          // tools.popWindow("正确，文件上传成功！");
+          this.items[2].name = "上传完毕！"
+          location.reload();
         }, (XML, textStatus, errorThrown) => {
           tools.popWindow("错误，文件上传失败！\n" + errorThrown);
+          location.reload();
         });
       },
       filesOperate(item) {
@@ -71,7 +80,10 @@
             location.reload();
             break;
           case "上传文件":
-            $("#m-upload-file").click();
+            if (this.allowUpload)
+              $("#m-upload-file").click();
+            else
+              tools.popWindow("当前再禁止上传文件");
             break;
           case "复制":
             functionMudule.copy(this.getFileStack());
@@ -116,6 +128,7 @@
     data() {
       let that = this;
       return {
+        allowUpload: true,
         items: [{
             name: "基本功能",
             class: "",
@@ -131,7 +144,8 @@
           {
             name: "上传文件",
             class: "glyphicon glyphicon-open",
-            api: ""
+            api: "",
+            upload: true
           },
           {
             name: "文件操作",

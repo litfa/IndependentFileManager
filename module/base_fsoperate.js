@@ -2,13 +2,18 @@ const fs = require("fs");
 const path_moduel = require("path");
 // const os = require("os");
 
-const DEBUG = false;
+const DEBUG = true;
 
 //基本的操作权限
 class BaseFileOperate {
     constructor(rootPath) {
+        if (path_moduel.isAbsolute(rootPath))
+            this.rootPath = path_moduel.normalize(rootPath);
+        else
+            throw Error("RootPath 必须是一个绝对路径，否则将无法定位");
+        // this.rootPath = path_moduel.normalize(path_moduel.resolve(rootPath));
         this.fs = fs;
-        this.rootPath = path_moduel.normalize(rootPath);
+
     }
 
     root(rootPath) {
@@ -21,6 +26,7 @@ class BaseFileOperate {
     normalizePath(path) {
         //let normalizedPath = path_moduel.normalize(path);
         //let absPath = path_moduel.resolve(normalizedPath);
+        if (path_moduel.isAbsolute(path)) return path;
         let absPath = path_moduel.normalize(path_moduel.join(this.rootPath, path));
         return absPath;
     }

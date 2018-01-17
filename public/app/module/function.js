@@ -73,9 +73,28 @@ exports.rename = (filesStack, newName) => {
 };
 
 
-exports.upload = (file) => { //$("#m-upload-file")[0].files[0]
+exports.upload = (file, progress) => { //$("#m-upload-file")[0].files[0]
+    if (typeof FormData != "function") {
+        tools.popWindow("很遗憾，您的浏览器不兼容异步文件上传。请使用现代浏览器！");
+        return null;
+    }
     var oMyForm = new FormData();
     oMyForm.append("time", new Date().toUTCString());
     oMyForm.append("upload_file", file);
-    return promiseAjax('fs/upload', oMyForm);
+    return new Promise((resolve, reject) => {
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/fs/upload", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 200) {
+                resolve("Done");
+            } else {
+                reject(oReq.status);
+            }
+        };
+        oReq.upload.addEventListener("progress", (evt) => {
+            var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+            progress(percentComplete);
+        }, false);
+        oReq.send(oMyForm);
+    });
 };

@@ -10,7 +10,8 @@ const {
     FileOperateStructure,
     UseFileOperate
 } = require("../model/fsoperate_session");
-
+const fs = require("fs");
+const os = require('os');
 
 
 router.get('/auth', (req, res) => {
@@ -25,6 +26,7 @@ router.get('/auth', (req, res) => {
     req.session.save();
 });
 
+
 router.post('/ls', (req, res) => {
     let name = parseHandle(req.body) || "./";
     req.session.fsos.cwd = pathm.normalize(pathm.join(req.session.fsos.cwd, name));
@@ -34,6 +36,7 @@ router.post('/ls', (req, res) => {
     req.session.save();
     sendHandle(req, res, obj);
 });
+
 
 router.post('/rm', (req, res) => {
     let stack = (parseHandle(req.body));
@@ -55,6 +58,7 @@ router.post('/cp', (req, res) => {
     sendHandle(req, res, null);
 });
 
+
 router.post('/ct', (req, res) => {
     let stack = (parseHandle(req.body));
     req.session.fsoperate.tmp_files = stack;
@@ -63,6 +67,7 @@ router.post('/ct', (req, res) => {
     req.session.save();
     sendHandle(req, res, null);
 });
+
 
 router.post('/patse', (req, res) => {
     let callFunc = null;
@@ -78,10 +83,43 @@ router.post('/patse', (req, res) => {
     sendHandle(req, res, obj);
 });
 
+
 router.post('/rename', (req, res) => {
     let json = (parseHandle(req.body));
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
     sendHandle(req, res, fileOperate.mv(json.oldName, json.newName));
+});
+
+
+const multiparty = require('multiparty');
+router.all('/upload', (req, res) => {
+    let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
+    var target_path = fileOperate.normalizePath(req.session.fsos.cwd); //获取绝对路径
+    //生成multiparty对象，并配置上传目标路径
+    var form = new multiparty.Form({
+        uploadDir: os.tmpdir()
+    });
+    form.parse(req, function (err, fields, files) {
+        // var filesTmp = JSON.stringify(files, null, 2);
+        // console.log('parse files: ' + filesTmp);
+        if (err) {
+            res.status(500).send('服务器内部错误！文件上传错误！' + err);
+            return;
+        }
+        try {
+            var inputFile = files.upload_file[0];
+            var uploadedPath = inputFile.path;
+            var dstPath = pathm.join(target_path, inputFile.originalFilename);
+
+            let readStream = fs.createReadStream(uploadedPath);
+            let writeStream = fs.createWriteStream(dstPath);
+            readStream.pipe(writeStream);
+            fs.unlink(uploadedPath, (err) => { /*ignore*/ });
+            res.send("Done");
+        } catch (err) {
+            res.status(500).send('上传虽然成功，但是处理文件出错: ' + err);
+        }
+    });
 });
 
 module.exports = router;

@@ -38,7 +38,6 @@ class Ajax {
 			this.parameter['data'] = JSON.stringify(this.parameter['data']);
 
 		console.log("Ajax:", this.parameter.data);
-
 		$.ajax({
 			type: this.parameter['type'] || "POST",
 			url: encodeURI(this.parameter['url']),

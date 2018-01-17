@@ -6,14 +6,15 @@ var bodyParser = require('body-parser');
 // var querystring = require('querystring');
 
 //Cookie and Session 的基础功能
-// app.use(cookieParser());
-app.use(express.bodyParser({
-    uploadDir: './tmp_uploads'
-}));
+app.use(cookieParser());
+// app.use(cookieParser({
+//     uploadDir: './tmp_uploads'
+// }));
 // app.use(cookieParser());
 // app.use(bodyParser());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: false,
+    // uploadDir: './tmp_uploads'
 }));
 app.use(bodyParser.json());
 

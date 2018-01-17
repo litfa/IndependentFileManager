@@ -51,6 +51,13 @@ class FileOperate extends BaseFileOperate {
         return result;
     }
 
+    mkdir(path) {
+        return this.pathAccessCheck(path, (absPath) => {
+            fs.mkdirSync(absPath);
+            return fs.existsSync(absPath);
+        });
+    }
+
     rm(path) {
         return this.pathAccessCheck(path, (absPath) => {
             if (fs.statSync(absPath).isDirectory()) {

@@ -42,6 +42,11 @@ exports.ls = (path) => {
     });
 };
 
+exports.mkdir = (newName) => {
+    console.log("新建目录");
+    return promiseAjax("/fs/mkdir", newName);
+};
+
 exports.copy = (fileStack) => {
     console.log("复制");
     return promiseAjax("/fs/cp", fileStack);

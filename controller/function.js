@@ -14,6 +14,13 @@ const fs = require("fs");
 const os = require('os');
 
 
+router.post('/mkdir', (req, res) => {
+    let name = parseHandle(req.body) || "__UNDIFINE__";
+    let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
+    let sendObj = fileOperate.mkdir(name);
+    sendHandle(req, res, sendObj);
+});
+
 
 
 router.post('/ls', (req, res) => {

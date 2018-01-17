@@ -114,6 +114,12 @@
             );
             location.reload();
             break;
+          case "新建目录":
+            functionMudule.mkdir(
+              prompt("新的目录名", "")
+            );
+            location.reload();
+            break;
           case "退出":
             window.location.href = "/fs_auth/logout";
           default:
@@ -154,6 +160,11 @@
             class: "",
             api: "",
             title: true
+          },
+          {
+            name: "新建目录",
+            class: "glyphicon glyphicon-credit-card",
+            api: ""
           },
           {
             name: "重命名",

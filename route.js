@@ -36,7 +36,9 @@ app.post('/', function (req, res) {
 });
 
 var baseR = require('./controller/function');
+var authR = require('./controller/auth');
 app.use('/fs', baseR);
+app.use('/fs_auth', authR);
 
 var server = app.listen(3000, function () {
     var host = server.address().address;

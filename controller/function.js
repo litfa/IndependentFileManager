@@ -14,17 +14,6 @@ const fs = require("fs");
 const os = require('os');
 
 
-router.get('/auth', (req, res) => {
-    req.session.fsos = new FileOperateStructure("E:/test/", "./");
-    req.session.fsoperate = {};
-    req.session.fsoperate.tmp = [];
-    req.session.w = "AAA";
-    req.session.ewe = function () {
-        console.log(11111111);
-    };
-    res.send('auth Done');
-    req.session.save();
-});
 
 
 router.post('/ls', (req, res) => {

@@ -58,13 +58,28 @@ class FileOperate extends BaseFileOperate {
         });
     }
 
-    rm(path) {
+    // rm(path) {
+    //     return this.pathAccessCheck(path, (absPath) => {
+    //         fs.rm_rf(absPath);
+    //         return !fs.existsSync(absPath);
+    //     });
+    // }
+
+    rm_rf(path) {
         return this.pathAccessCheck(path, (absPath) => {
-            if (fs.statSync(absPath).isDirectory()) {
+            var files = [];
+            if (fs.existsSync(absPath)) {
+                files = fs.readdirSync(absPath);
+                files.forEach(function (file, i) {
+                    var curPath = absPath + "/" + file;
+                    if (fs.statSync(curPath).isDirectory()) { // recurse  
+                        this.rm_rf(curPath);
+                    } else { // delete file  
+                        fs.unlinkSync(curPath);
+                    }
+                });
                 fs.rmdirSync(absPath);
-                return !fs.existsSync(absPath);
             }
-            fs.unlinkSync(absPath);
             return !fs.existsSync(absPath);
         });
     }

@@ -18,11 +18,6 @@ function promiseAjax(url, datas = "") {
     });
 }
 
-exports.cd = (path) => {
-    console.log("改变目录");
-
-}
-
 exports.ls = (path) => {
     console.log("刷新");
     return new Promise((resolve, reject) => {
@@ -41,27 +36,27 @@ exports.ls = (path) => {
             resolve(newRes);
         });
     });
-}
+};
 
 exports.copy = (fileStack) => {
     console.log("复制");
     return promiseAjax("/fs/cp", fileStack);
-}
+};
 
 exports.paste = () => {
     console.log("粘贴");
     return promiseAjax("/fs/patse");
-}
+};
 
 exports.remove = (fileStack) => {
     console.log("删除");
     return promiseAjax("/fs/rm", fileStack);
-}
+};
 
 exports.cponce = (fileStack) => {
     console.log("剪贴");
     return promiseAjax("/fs/ct", fileStack);
-}
+};
 
 exports.rename = (filesStack, newName) => {
     console.log("重名名:", filesStack[0].name, "->", newName);
@@ -75,4 +70,12 @@ exports.rename = (filesStack, newName) => {
         tools.popWindow("非法操作，同时命名多个文件或未选择文件！");
     }
 
-}
+};
+
+
+exports.upload = (file) => { //$("#m-upload-file")[0].files[0]
+    var oMyForm = new FormData();
+    oMyForm.append("time", new Date().toUTCString());
+    oMyForm.append("upload_file", file);
+    return promiseAjax('fs/upload', oMyForm);
+};

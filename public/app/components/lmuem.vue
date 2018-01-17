@@ -11,6 +11,10 @@
       </div>
     </div>
   </div>
+  <!-- 文件上传的表单 -->
+  <form id="m-upload-form" style="display:none;" method="post" enctype="multipart/form-data" action="/fs/upload">
+    <input type="file" name="upload_file" id="m-upload-file" v-on:change="formSub" />
+  </form>
 </template>
 
 <style lang="css">
@@ -47,6 +51,16 @@
   export default {
     props: ["filesHub"],
     methods: {
+      formSub(e) {
+        console.log('---------- 文件选择完毕 ----------------', this);
+        // let ele = e.target;
+        let file = $("#m-upload-file")[0].files[0];
+        functionMudule.upload(file).then(() => {
+          tools.popWindow("正确，文件上传成功！");
+        }, (XML, textStatus, errorThrown) => {
+          tools.popWindow("错误，文件上传失败！\n" + errorThrown);
+        });
+      },
       filesOperate(item) {
         console.log("----------------- 操作文件栈 -------------------");
         let stack = this.filesHub.get("CompFiles", []);
@@ -57,6 +71,7 @@
             location.reload();
             break;
           case "上传文件":
+            $("#m-upload-file").click();
             break;
           case "复制":
             functionMudule.copy(this.getFileStack());

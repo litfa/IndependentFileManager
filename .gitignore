@@ -1,6 +1,9 @@
 output_js/
 .project
 
+#Vscode dir
+.vscode/
+
 # Logs
 logs
 *.log

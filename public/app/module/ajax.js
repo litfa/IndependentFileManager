@@ -57,10 +57,8 @@ class Ajax {
 	}
 
 	reset(newParameters) {
-		for (let key in this.parameter) {
-			if (object.hasOwnProperty(key)) {
-				this.parameter[key] = newParameters;
-			}
+		for (let key in newParameters) {
+			this.parameter[key] = newParameters[key];
 		}
 	}
 }

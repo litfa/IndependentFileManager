@@ -20,7 +20,7 @@ router.post('/ls', (req, res) => {
     let name = parseHandle(req.body) || "./";
     req.session.fsos.cwd = pathm.normalize(pathm.join(req.session.fsos.cwd, name));
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
-    if (req.session.fsos.cwd == "..\\") req.session.fsos.cwd = "./"; //越级,重置
+    if (req.session.fsos.cwd == "..\\" || req.session.fsos.cwd == "../") req.session.fsos.cwd = "./"; //越级,重置
     let obj = fileOperate.lsType(req.session.fsos.cwd);
     req.session.save();
     sendHandle(req, res, obj);
@@ -76,7 +76,14 @@ router.post('/patse', (req, res) => {
 router.post('/rename', (req, res) => {
     let json = (parseHandle(req.body));
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
-    sendHandle(req, res, fileOperate.mv(json.oldName, json.newName));
+    let cwd = req.session.fsos.cwd;
+    let oldPath = pathm.join(cwd, json.oldName);
+    let newPath = pathm.join(cwd, json.newName);
+    if (!fileOperate.isPathAccess(newPath)) {
+        res.status(403).send("非法越级目录，权限阻止:" + oldPath + "->" + newPath);
+        return;
+    }
+    sendHandle(req, res, fileOperate.mv(oldPath, newPath));
 });
 
 
@@ -110,5 +117,22 @@ router.all('/upload', (req, res) => {
         }
     });
 });
+
+router.get('/download/:name', (req, res) => {
+    if (!req.params.name) return;
+    let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
+    let cwd = req.session.fsos.cwd;
+    let filename = pathm.join(cwd, req.params.name);
+    res.sendfile(filename, {
+        root: fileOperate.root(),
+        dotfiles: 'deny',
+        headers: {
+            'Content-Disposition': "attachmnet",
+            'filename': encodeURIComponent(req.params.name.trim())
+        }
+    }, (err) => {});
+
+});
+
 
 module.exports = router;

@@ -28,7 +28,8 @@
         </td>
         <td>
           <a v-if="!item.isFile" class="m-item-file-a-dir" href="javascript:void(0);" v-text="item.name" v-on:click="cd(item)"></a>
-          <a v-else class="m-item-file-a-file" href="javascript:void(0);" v-text="item.name" v-on:click="cd(item)"></a>
+          <a v-else target="_black" class="m-item-file-a-file" :href="'/fs/download/'+encodeURIComponent(item.name)" v-text="item.name"
+            v-on:click="cd(item)"></a>
         </td>
         <td v-if="item.isFile">文件</td>
         <td v-else>目录</td>
@@ -74,7 +75,8 @@
   .m-item-file-a-file {
     color: rgb(100, 100, 100);
     display: inline-block;
-    width: 100%;
+    width: 80%;
+    max-width: 220px;
   }
 </style>
 

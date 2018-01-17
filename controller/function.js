@@ -40,7 +40,7 @@ router.post('/rm', (req, res) => {
     let stack = (parseHandle(req.body));
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
     let names = filesToPaths(stack, req.session.fsos.cwd);
-    let obj = fileOperate.batchExectue(fileOperate.rm_rf, names);
+    let obj = fileOperate.batchExectue(fileOperate.rm, names);
     sendHandle(req, res, obj);
 });
 

@@ -58,20 +58,24 @@ class FileOperate extends BaseFileOperate {
         });
     }
 
-    _rm_rf(path) { //递归
+    _forEachFile(path, callbackExec = null) {
         var files = [];
         if (fs.existsSync(path)) {
             files = fs.readdirSync(path);
             for (let file of files) {
                 var curPath = path + "/" + file;
                 if (fs.statSync(curPath).isDirectory()) { // recurse  
-                    this._rm_rf(curPath);
+                    this._rm_rf(curPath, null);
                 } else { // delete file  
-                    fs.unlinkSync(curPath);
+                    callbackExec && callbackExec(curPath);
                 }
             }
         }
         fs.rmdirSync(path);
+    }
+
+    _rm_rf(path) { //递归
+        this._forEachFile(path, (p) => fs.unlinkSync(p));
     }
 
     rm(path) {

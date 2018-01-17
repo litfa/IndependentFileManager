@@ -2,11 +2,17 @@ const pathm = require("path");
 
 exports.parseHandle = (form) => {
     if (form['request'] != undefined) {
+        let result = "";
         try {
-            return JSON.parse(form.request);
+            result = JSON.parse(form.request);
+            if (typeof result == 'number') return "" + result; //不能直接int
+            return result;
         } catch (err) {
-            return form.request;
+            result = form.request;
+            if (typeof result == 'number') return "" + result; //不能直接int
+            return result;
         }
+
     }
     return "";
 };

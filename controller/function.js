@@ -15,9 +15,11 @@ const os = require('os');
 
 
 router.post('/mkdir', (req, res) => {
-    let name = parseHandle(req.body) || "__UNDIFINE__";
+    let name = parseHandle(req.body) || "";
+    if (name == "") return;
+    let cwd = req.session.fsos.cwd;
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
-    let sendObj = fileOperate.mkdir(name);
+    let sendObj = fileOperate.mkdir(pathm.join(cwd, name));
     sendHandle(req, res, sendObj);
 });
 
@@ -82,6 +84,7 @@ router.post('/patse', (req, res) => {
 
 router.post('/rename', (req, res) => {
     let json = (parseHandle(req.body));
+    if (json.newName.trim() == "" || json.oldName.trim() == "") return;
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
     let cwd = req.session.fsos.cwd;
     let oldPath = pathm.join(cwd, json.oldName);

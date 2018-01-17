@@ -27,8 +27,8 @@
           <input type="checkbox" v-model="item.checkbox">
         </td>
         <td>
-          <a v-if="!item.isFile" class="m-item-file-a-dir" href="javascript:void(0);" v-text="item.name" v-on:click="cd(item)"></a>
-          <a v-else target="_black" class="m-item-file-a-file" :href="'/fs/download/'+encodeURIComponent(item.name)" v-text="item.name"
+          <a v-if="!item.isFile" class="m-item-file-a-dir" href="javascript:void(0);" v-html="enContext(item.name)" v-on:click="cd(item)"></a>
+          <a v-else target="_black" class="m-item-file-a-file" :href="'/fs/download/'+encodeURIComponent(item.name)" v-html="enContext(item.name)"
             v-on:click="cd(item)"></a>
         </td>
         <td v-if="item.isFile">文件</td>
@@ -83,6 +83,7 @@
 <script>
   import hubMoudle from "../module/hub";
   import functionModule from "../module/function";
+  import tools from "../module/tools";
 
   export default {
     props: ["fileList", "commonHub"],
@@ -93,6 +94,10 @@
       };
     },
     methods: {
+      enContext(text) {
+        return tools.encodeContext(text);
+        // return text;
+      },
       sizecomp(item, size) {
         //初始单位字节
         let res = 0;

@@ -6,7 +6,7 @@ import swal from 'sweetalert2';
 exports.popWindow = (data) => {
     console.log("弹出:", data);
     swal({
-        title: "INFO",
+        title: "",
         text: '' + data,
         timer: 2000
     });
@@ -23,7 +23,6 @@ exports.confirm = (msg, callbackt, callbackf) => {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
     }).then(function (isConfirm) {
-        console.log("--------------------------------------------swak arsad", isConfirm)
         if (isConfirm) {
             callbackt && callbackt();
         } else {
@@ -32,6 +31,29 @@ exports.confirm = (msg, callbackt, callbackf) => {
     });
 };
 
+exports.prompt = (msg, callbackT, callbackF) => {
+    swal({
+        title: msg,
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, 500);
+            });
+        },
+        allowOutsideClick: false
+    }).then((text) => {
+        if (text && text.value)
+            callbackT && callbackT(text.value);
+        else
+            callbackF && callbackF("");
+    });
+};
 
 exports.encodeContext = (text) => {
     let tmp = new String(text);

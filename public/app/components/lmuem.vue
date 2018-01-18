@@ -116,10 +116,12 @@
             location.reload();
             break;
           case "新建目录":
-            functionMudule.mkdir(
-              prompt("新的目录名", "")
-            );
-            location.reload();
+            tools.prompt("新的目录名", (newDirName) => {
+              console.log("_=========================== DEBUG_NEWDIR：", newDirName)
+              functionMudule.mkdir(newDirName);
+              location.reload();
+            });
+
             break;
           case "退出":
             window.location.href = "/fs_auth/logout";

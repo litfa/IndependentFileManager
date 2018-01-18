@@ -4,6 +4,9 @@ output_js/
 #Vscode dir
 .vscode/
 
+#tmp
+tmp_files/
+
 # Logs
 logs
 *.log

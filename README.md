@@ -36,6 +36,26 @@ cd ..
 
 以及再次对这个程序进行扩展，开发，与更改，新增。
 
+**网页入口** http://localhost:port/fs_auth/ 并非根目录，这是为了方便你添加到其他程序上使用。
+
+权限
+-----------
+默认的根目录位置是程序当前目录，你可以通过更改 `controller/auth.js` 来更改基本目录。
+
+文件 `controller/auth.js`
+
+```javascript
+const BASE_DIR = process.cwd();
+router.all('/', (req, res) => {
+    // 你可以在这里自定义你的权限，根目录应该是什么，方便适配到你的程序。
+    req.session.fsos = new FileOperateStructure(BASE_DIR, "./");
+    req.session.fsoperate = {};
+    req.session.fsoperate.tmp = [];
+    req.session.save();
+    res.redirect('/public');
+});
+```
+
 基本目录结构
 -----------
 `public/*`      前端代码

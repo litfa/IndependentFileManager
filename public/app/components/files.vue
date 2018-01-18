@@ -75,8 +75,7 @@
   .m-item-file-a-file {
     color: rgb(100, 100, 100);
     display: inline-block;
-    width: 80%;
-    max-width: 220px;
+    width: 100%;
   }
 </style>
 

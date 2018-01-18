@@ -7,23 +7,17 @@ var bodyParser = require('body-parser');
 
 //Cookie and Session 的基础功能
 app.use(cookieParser());
-// app.use(cookieParser({
-//     uploadDir: './tmp_uploads'
-// }));
-// app.use(cookieParser());
-// app.use(bodyParser());
 app.use(bodyParser.urlencoded({
     extended: false,
-    // uploadDir: './tmp_uploads'
 }));
 app.use(bodyParser.json());
 
 app.use(session({
     secret: 'IFM_session_wseccret',
     name: 'IFM_session',
-    //三天
+    //1小时
     cookie: {
-        maxAge: 10000 * 60 * 60 * 24 * 3
+        maxAge: 10000 * 60 * 60
     },
     resave: true,
     saveUninitialized: true,

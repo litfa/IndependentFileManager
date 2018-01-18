@@ -2,12 +2,13 @@
   "name": "iwfmanager",
   "version": "1.0.0",
   "description": "independent web file manager",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "Suwings",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",

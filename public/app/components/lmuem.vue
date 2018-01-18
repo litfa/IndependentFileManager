@@ -102,7 +102,8 @@
             tools.confirm("您确定要删除这(些)文件吗?", () => {
               functionMudule.remove(filestack);
               location.reload();
-            });
+              //BUG Note: 如果取消也不刷新，则再次确定需要确定两次
+            }, () => location.reload());
             break;
           case "重命名":
             if (this.getFileStack().length != 1) {
@@ -117,7 +118,6 @@
             break;
           case "新建目录":
             tools.prompt("新的目录名", (newDirName) => {
-              console.log("_=========================== DEBUG_NEWDIR：", newDirName)
               functionMudule.mkdir(newDirName);
               location.reload();
             });
@@ -150,10 +150,9 @@
             name: "刷新",
             class: "glyphicon glyphicon-refresh",
             api: ""
-            //   action: that.methods.refreshOperate
           },
           {
-            name: "上传文件",
+            name: "上传文件", //此项目顺序不可改变，必须第三项
             class: "glyphicon glyphicon-open",
             api: "",
             upload: true
@@ -166,7 +165,7 @@
           },
           {
             name: "新建目录",
-            class: "glyphicon glyphicon-credit-card",
+            class: "glyphicon glyphicon-plus",
             api: ""
           },
           {

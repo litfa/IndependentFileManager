@@ -23,7 +23,7 @@ exports.confirm = (msg, callbackt, callbackf) => {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
     }).then(function (isConfirm) {
-        if (isConfirm) {
+        if (isConfirm.value) {
             callbackt && callbackt();
         } else {
             callbackf && callbackf();

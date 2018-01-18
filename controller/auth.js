@@ -21,7 +21,7 @@ router.all('/', (req, res) => {
 
 router.all('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/');
+    res.send('[正常] 您已安全退出，现在可以关闭这个网页。');
 });
 
 

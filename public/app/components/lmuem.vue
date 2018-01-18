@@ -98,10 +98,11 @@
             location.reload();
             break;
           case "删除":
-            if (tools.confirm("您确定要删除这(些)文件吗?")) {
-              functionMudule.remove(this.getFileStack());
+            let filestack = this.getFileStack(); //BUG Note:this上下文不可出现在异步
+            tools.confirm("您确定要删除这(些)文件吗?", () => {
+              functionMudule.remove(filestack);
               location.reload();
-            }
+            });
             break;
           case "重命名":
             if (this.getFileStack().length != 1) {

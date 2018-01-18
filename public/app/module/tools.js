@@ -1,13 +1,35 @@
 //工具类
 
+import swal from 'sweetalert2';
+
 //弹出提示框
 exports.popWindow = (data) => {
     console.log("弹出:", data);
-    alert(data);
+    swal({
+        title: "INFO",
+        text: '' + data,
+        timer: 2000
+    });
 };
 
-exports.confirm = (msg) => {
-    return confirm(msg);
+exports.confirm = (msg, callbackt, callbackf) => {
+    swal({
+        title: 'Are you sure?',
+        text: msg,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+    }).then(function (isConfirm) {
+        console.log("--------------------------------------------swak arsad", isConfirm)
+        if (isConfirm) {
+            callbackt && callbackt();
+        } else {
+            callbackf && callbackf();
+        }
+    });
 };
 
 

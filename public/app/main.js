@@ -2,12 +2,9 @@ import Vue from 'vue';
 import componentLmuem from './components/lmuem';
 import componentFiles from './components/files';
 
-import tools from "./module/tools";
 import hubModule from "./module/hub";
-import ajaxMoudule from "./module/ajax";
 
 const filesHub = hubModule.Hub;
-// window.COMMON_HUB = commonHub;
 
 new Vue({
     el: "#vm-leftm-items",

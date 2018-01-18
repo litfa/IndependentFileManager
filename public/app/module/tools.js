@@ -4,7 +4,11 @@
 exports.popWindow = (data) => {
     console.log("弹出:", data);
     alert(data);
-}
+};
+
+exports.confirm = (msg) => {
+    return confirm(msg);
+};
 
 
 exports.encodeContext = (text) => {

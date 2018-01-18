@@ -98,7 +98,7 @@
             location.reload();
             break;
           case "删除":
-            if (confirm("您确定要删除这(些)文件吗?")) {
+            if (tools.confirm("您确定要删除这(些)文件吗?")) {
               functionMudule.remove(this.getFileStack());
               location.reload();
             }

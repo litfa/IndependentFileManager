@@ -15,7 +15,7 @@ const os = require('os');
 
 
 router.post('/mkdir', (req, res) => {
-    let name = "" + parseHandle(req.body);
+    let name = parseHandle(req.body, "string");
     if (name == "") return;
     let cwd = req.session.fsos.cwd;
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
@@ -26,7 +26,7 @@ router.post('/mkdir', (req, res) => {
 
 
 router.post('/ls', (req, res) => {
-    let name = "" + parseHandle(req.body) || "./";
+    let name = parseHandle(req.body, "string") || "./";
     req.session.fsos.cwd = pathm.normalize(pathm.join(req.session.fsos.cwd, name));
     let fileOperate = new UseFileOperate(req.session.fsos).fileOperate;
     if (req.session.fsos.cwd == "..\\" || req.session.fsos.cwd == "../") req.session.fsos.cwd = "./"; //越级,重置

@@ -1,9 +1,11 @@
 const pathm = require("path");
 
-exports.parseHandle = (form) => {
+exports.parseHandle = (form, type) => {
     if (form['request'] != undefined) {
         let result = "";
         try {
+            if (type == "string")
+                return form.request;
             result = JSON.parse(form.request);
             if (typeof result == 'number') return "" + result; //不能直接int
             return result;
@@ -12,7 +14,6 @@ exports.parseHandle = (form) => {
             if (typeof result == 'number') return "" + result; //不能直接int
             return result;
         }
-
     }
     return "";
 };

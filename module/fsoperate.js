@@ -4,6 +4,7 @@ const path_moduel = require("path");
 const {
     BaseFileOperate
 } = require("./base_fsoperate");
+var fsex = require('fs-extra');
 
 
 
@@ -98,12 +99,12 @@ class FileOperate extends BaseFileOperate {
 
     cp(srcpath, newpath) {
         return this.pathAccessCheck([srcpath, newpath], (paths) => {
-            if (!fs.existsSync(paths[0]) || fs.statSync(paths[0]).isDirectory())
+            if (!fs.existsSync(paths[0]))
                 return false;
-            let readStream = fs.createReadStream(paths[0]);
-            let writeStream = fs.createWriteStream(paths[1]);
-            readStream.pipe(writeStream);
-            return fs.existsSync(paths[0]) && fs.existsSync(paths[1]);
+            fsex.copy(paths[0], paths[1], function (err) {
+                if (err) return;
+            });
+            return true;
         });
     }
 

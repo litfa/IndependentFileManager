@@ -87,7 +87,7 @@
             break;
           case "复制":
             functionMudule.copy(this.getFileStack());
-            tools.popWindow("已复制到临时区域,使用粘贴即可粘贴到当前目录");
+            tools.popWindow("已复制到临时区域,使用粘贴即可复制到当前目录");
             break;
           case "剪贴":
             functionMudule.cponce(this.getFileStack());

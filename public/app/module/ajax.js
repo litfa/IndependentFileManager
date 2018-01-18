@@ -6,13 +6,6 @@ class Ajax {
 		this.parameter["json"] = parameter["json"] || true;
 	}
 
-	// _data(dataObj = "", key = "request") {
-	// 	let postJSON = {};
-	// 	postJSON[key] = dataObj;
-	// 	return JSON.stringify(postJSON);
-	// }
-
-
 	success(data) {
 		if (DEBUG) console.log("Ajax success\n", data);
 		try {

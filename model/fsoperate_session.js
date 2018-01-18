@@ -4,31 +4,7 @@ class FileOperateStructure {
     constructor(rootPath = null, cwd = null) {
         this.rootPath = rootPath;
         this.cwd = cwd;
-        // this.fso = new FileOperate(rootPath);
     }
-
-    // fileOperate() {
-    //     return this.fso;
-    // }
-
-    // rootPath(rootPath) {
-    //     if (rootPath) {
-    //         this._rootPath = rootPath;
-    //         this.fso = new FileOperate(rootPath);
-    //         return this._rootPath;
-    //     } else {
-    //         return this._rootPath;
-    //     }
-    // }
-
-    // cwd(cwdp) {
-    //     if (cwdp) {
-    //         this._cwd = cwdp;
-    //         return this._cwd;
-    //     }
-    //     return this._cwd;
-    // }
-
 }
 
 

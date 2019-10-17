@@ -26,11 +26,11 @@ class Ajax {
 
 
 	ajax() {
-		let that = this;
+		var that = this;
 		if (typeof this.parameter['data'] == "object")
 			this.parameter['data'] = JSON.stringify(this.parameter['data']);
 
-		console.log("Ajax:", this.parameter.data);
+		if (DEBUG) console.log("发起 Ajax:", this.parameter['url'], "数据:" + this.parameter.data);
 		$.ajax({
 			type: this.parameter['type'] || "POST",
 			url: encodeURI(this.parameter['url']),
@@ -55,4 +55,7 @@ class Ajax {
 	}
 }
 
-exports.Ajax = Ajax;
+
+export default {
+	Ajax
+}

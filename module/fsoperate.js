@@ -1,11 +1,12 @@
 const fs = require("fs");
 const path_moduel = require("path");
-// const os = require("os");
+const cluster = require('cluster');
+const os = require("os");
 const {
     BaseFileOperate
 } = require("./base_fsoperate");
-var fsex = require('fs-extra');
-
+const fsex = require('fs-extra');
+const child_process = require('child_process');
 
 
 //文件操作具体
@@ -76,17 +77,20 @@ class FileOperate extends BaseFileOperate {
     }
 
     _rm_rf(path) { //递归
-        this._forEachFile(path, (p) => fs.unlinkSync(p));
+        this._forEachFile(path, (p) => { fs.unlinkSync(p) });
     }
 
     rm(path) {
-        return this.pathAccessCheck(path, (absPath) => {
-            if (fs.statSync(absPath).isDirectory()) {
-                this._rm_rf(absPath);
-                return !fs.existsSync(absPath);
+        this.pathAccessCheck(path, (absPath) => {
+            //如果仅单文件则直接删除
+            if (!fs.statSync(absPath).isDirectory()) {
+                fsex.remove(absPath, (err) => {
+                    if (err) return;
+                });
+            } else {
+                //若删除文件夹则分配子进程来进行解压操作
+                child_process.fork("./module/extend_worker.js", ['remove', absPath]);
             }
-            fs.unlinkSync(absPath);
-            return !fs.existsSync(absPath);
         });
     }
 
@@ -141,6 +145,41 @@ class FileOperate extends BaseFileOperate {
         }
         return resultStack;
     }
+
+
+    //解压文件
+    extract(path) {
+        return this.pathAccessCheck(path, (absPath) => {
+            //分配子进程来进行解压操作
+            child_process.fork("./module/extend_worker.js", ['extract', absPath]);
+        });
+    }
+
+    writeFile(path, data) {
+        return this.pathAccessCheck(path, (absPath) => {
+            try {
+                fs.writeFileSync(absPath, data);
+                return fs.existsSync(absPath);
+            } catch (err) {
+                console.log("[错误]", "文件写出错:\n", err);
+                return false;
+            }
+        });
+    }
+
+    readFile(path) {
+        return this.pathAccessCheck(path, (absPath) => {
+            try {
+                if (fs.existsSync(absPath)) {
+                    return fs.readFileSync(absPath);
+                }
+            } catch (err) {
+                console.log("[错误]", "文件读出错:\n", err);
+                return false;
+            }
+        });
+    }
+
 
 }
 

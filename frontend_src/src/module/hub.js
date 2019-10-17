@@ -37,5 +37,7 @@ class Hub {
 
 const onlyHub = new Hub();
 
-exports.HubClass = Hub;
-exports.Hub = onlyHub;
+export default {
+	HubClass: Hub,
+	Hub: onlyHub
+}

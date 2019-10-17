@@ -3,7 +3,6 @@ var app = express();
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var querystring = require('querystring');
 
 //Cookie and Session 的基础功能
 app.use(cookieParser());
@@ -12,12 +11,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
+const UUID = require('uuid');
 app.use(session({
-    secret: 'IFM_session_wseccret',
-    name: 'IFM_session',
+    secret: UUID.v4(),
+    name: 'IFM_SESSION',
     //1小时
     cookie: {
-        maxAge: 10000 * 60 * 60
+        maxAge: 1000 * 60 * 60
     },
     resave: true,
     saveUninitialized: true,
@@ -25,18 +26,10 @@ app.use(session({
 
 app.use('/public', express.static('./public'));
 
-app.post('/', function (req, res) {
-    // app.use(express.static('public'));
-});
+const baseRoute = require('./controller/function');
+const authRoute = require('./controller/auth');
 
-var baseR = require('./controller/function');
-var authR = require('./controller/auth');
-
-process.on("uncaughtException", function (err) {
-    console.log('UncaughtException 机制错误报告:', err);
-});
-
-app.use('/fs_auth', authR);
+app.use('/fs_auth', authRoute);
 //必须先进行登陆
 app.use(['/fs', '/public'], function (req, res, next) {
     if (req.session.fsos) {
@@ -45,11 +38,12 @@ app.use(['/fs', '/public'], function (req, res, next) {
     }
     res.status(403).send('禁止访问：权限不足！');
 });
-app.use('/fs', baseR);
+app.use('/fs', baseRoute);
 
-var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
+const server = app.listen(3000, function () {
+    // const host = server.address().address;
+    const port = server.address().port;
 
-    console.log('App listening at http://%s:%s', host, port);
+    console.log(' - 演示项目运行');
+    console.log(' - 访问即可使用与体验: http://localhost:%s/fs_auth/auth/foo', port);
 });

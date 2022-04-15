@@ -1,3 +1,12 @@
+/**
+ * @Author: auth
+ * @Date: 
+ * @LastEditTime: 2022-04-15 15:35:52
+ * @LastEditors: litfa
+ * @Description: app
+ * @FilePath: /IndependentFileManager/app.js
+ * @
+ */
 var express = require('express');
 var app = express();
 var session = require('express-session');
@@ -8,7 +17,7 @@ global.config = {};
 require('./config');
 
 // 已经验证的密钥
-global.auths = [];
+global.auths = {};
 
 //Cookie and Session 的基础功能
 app.use(cookieParser());

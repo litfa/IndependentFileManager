@@ -1,7 +1,7 @@
 /**
  * @Author: litfa
  * @Date: 2022-04-15 14:57:39
- * @LastEditTime: 2022-04-15 15:28:38
+ * @LastEditTime: 2022-04-15 15:35:20
  * @LastEditors: litfa
  * @Description: 获取密钥
  * @FilePath: /IndependentFileManager/controller/getAuth.js
@@ -22,12 +22,12 @@ router.post('/', (req, res) => {
   console.log(host, authKey);
   const path = host;
   const key = uuid.v4();
-  auths.push({
+  auths[key] = {
     path,
     key,
     date: Date.now(),
     status: true
-  });
+  };
   res.send({ status: 1, key });
 });
 

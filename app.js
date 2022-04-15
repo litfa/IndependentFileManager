@@ -3,6 +3,9 @@ var app = express();
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+// 配置文件
+global.config = {};
+require('./config');
 
 //Cookie and Session 的基础功能
 app.use(cookieParser());
@@ -40,7 +43,7 @@ app.use(['/fs', '/public'], function (req, res, next) {
 });
 app.use('/fs', baseRoute);
 
-const server = app.listen(3000, function () {
+const server = app.listen(config.port, function () {
     // const host = server.address().address;
     const port = server.address().port;
 

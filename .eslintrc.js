@@ -8,9 +8,12 @@ module.exports = {
         "sourceType": "module",
         "ecmaVersion": 6,
     },
-    globals: [
-        'config'
-    ],
+
+    globals: {
+        config: 'readonly',
+        auths: 'readonly'
+    },
+
     "rules": {
         "no-console": "off",
         // "indent": [

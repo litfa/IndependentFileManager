@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 global.config = {};
 require('./config');
 
+// 已经验证的密钥
+global.auths = [];
+
 //Cookie and Session 的基础功能
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({
@@ -31,8 +34,11 @@ app.use('/public', express.static('./public'));
 
 const baseRoute = require('./controller/function');
 const authRoute = require('./controller/auth');
+const getAuth = require('./controller/getAuth');
 
 app.use('/fs_auth', authRoute);
+// 通过authKey换取密钥
+app.use('/get_auth', getAuth);
 //必须先进行登陆
 app.use(['/fs', '/public'], function (req, res, next) {
     if (req.session.fsos) {

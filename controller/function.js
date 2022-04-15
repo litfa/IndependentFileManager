@@ -101,7 +101,7 @@ router.post('/rename', (req, res) => {
 
 //文件内容读取路由
 router.post('/edit_read', (req, res) => {
-    const filename = (parseHandle(req.body))
+    const filename = (parseHandle(req.body));
     if (!filename) return;
     //没有经过安全的 UseFileOperate 进行安全操作
     //必须经过目录越级漏洞防御
@@ -114,8 +114,8 @@ router.post('/edit_read', (req, res) => {
 
 //文件内容写入路由
 router.post('/edit_write', (req, res) => {
-    const obj = (parseHandle(req.body))
-    if (!obj || !obj.filename || !obj.context) return
+    const obj = (parseHandle(req.body));
+    if (!obj || !obj.filename || !obj.context) return;
     //没有经过安全的 UseFileOperate 进行安全操作
     //必须经过目录越级漏洞防御
     if (obj.filename.indexOf('../') != -1 || obj.filename.indexOf('./') != -1) return;
@@ -129,7 +129,7 @@ router.post('/edit_write', (req, res) => {
 
 //解压路由
 router.post('/extract', (req, res) => {
-    const zipName = (parseHandle(req.body))
+    const zipName = (parseHandle(req.body));
     if (!zipName) {
         res.status(403).send("非法名称");
     }
